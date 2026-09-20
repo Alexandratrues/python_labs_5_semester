@@ -1,0 +1,104 @@
+import math
+
+def check_digits_unique(n : int) -> bool:
+    temp = abs(n)
+    while temp > 0:
+        ostatok = temp % 10
+        res_no_ostatok = temp // 10
+        while res_no_ostatok > 0:
+            if res_no_ostatok % 10 == ostatok:
+                return False
+            res_no_ostatok //= 10
+        temp //= 10
+    return True
+
+def remove_kratnoe_min_digit(n : int) -> int:
+    temp = abs(n)
+    if temp == 0:
+        return 0
+    
+    min = 9
+    t = temp
+    while t > 0:
+        ostatok = t % 10
+        if ostatok != 0 and ostatok < min:
+            min = ostatok
+        t //= 10
+
+    res = 0
+    mult = 1
+    t = temp
+    while t > 0:
+        ostatok = t % 10
+        if ostatok % min != 0:
+            res += ostatok * mult
+            mult *= 10
+        t //= 10
+
+    if n >= 0:
+        return res
+    else:
+        return -res
+
+def get_primes(n : int) -> list[int]:
+    if n < 2:
+        return []
+    
+    primes = []
+    for num in range(2, n + 1):
+        is_prime = True
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                is_prime = False
+                break
+        if is_prime:
+            primes.append(num)
+    return primes
+
+def get_perfect_numbers(a: int, b: int) -> list[int]:
+    perfect_numbers = []
+
+    for num in range(a, b + 1):
+        if num < 2:
+            continue
+
+        divisors_sum = 1
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
+                divisors_sum += i
+                other_divisor = num // i
+                if other_divisor != i:
+                    divisors_sum += other_divisor
+
+        if divisors_sum == num:
+            perfect_numbers.append(num)
+
+    return perfect_numbers
+
+def main():
+    print("лаб 2")
+    n = int(input("введите натур n: "))
+    
+    print(f"все цифры {n} различны: {check_digits_unique(n)}")
+    print(f"без цифр, кратных мин: {remove_kratnoe_min_digit(n)}")
+    
+    if n > 0:
+        primes = get_primes(n)
+        if primes:
+            print(f"простые до {n}: {(primes)}")
+        else:
+            print("простых нет")
+
+    a = int(input("введите натур a: "))
+    b = int(input("введите натур b: "))
+
+    if a > 0 and b > 0:
+        if a > b:
+            a, b = b, a
+        perfects = get_perfect_numbers(a, b)
+        if perfects:
+            print(f"совершенные числа на [{a}, {b}]: {perfects}")
+        else:
+            print("совершенных чисел нет")
+
+main()
