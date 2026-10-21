@@ -10,7 +10,7 @@ except ValueError:
 today = datetime.today().date()
 
 geo_url = "https://geocoding-api.open-meteo.com/v1/search"
-geo_params = {"name": city_name, "count": 1, "language": "ru", "format": "json"}
+geo_params = {"name": city_name, "language": "ru", "format": "json"}
 geo_response = requests.get(geo_url, params=geo_params)
 geo_data = geo_response.json()
 if "results" not in geo_data:
@@ -42,7 +42,7 @@ weather_response = requests.get(weather_url, params=weather_params)
 if weather_response.status_code != 200:
     print("загадывать больше, чем на 16 дней вперед нельзя")
     exit()
-
+    
 weather_data = weather_response.json()
 
 temp_max = weather_data["daily"]["temperature_2m_max"][0]
