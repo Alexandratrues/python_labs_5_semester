@@ -1,61 +1,28 @@
 class Person:
     def __init__(self, fio: str):
-        self._fio = fio
-
-    def set_fio(self, fio: str):
-        self._fio = fio
-
-    def get_fio(self) -> str:
-        return self._fio
+        self.fio = fio
 
     def print_info(self):
-        print(f"ФИО: {self._fio}")
-
-    def get_type(self) -> str:
-        return "Person"
+        print(f"ФИО: {self.fio}")
 
 
 class Student(Person):
     def __init__(self, fio: str, course: int, group: int):
         super().__init__(fio)
-        self._course = course
-        self._group = group
-
-    def set_course(self, course: int):
-        self._course = course
-
-    def get_course(self) -> int:
-        return self._course
-
-    def set_group(self, group: int):
-        self._group = group
-
-    def get_group(self) -> int:
-        return self._group
+        self.course = course
+        self.group = group
 
     def print_info(self):
-        print(f"студент ФИО: {self.get_fio()}, курс: {self._course}, группа: {self._group}")
-
-    def get_type(self) -> str:
-        return "Student"
+        print(f"студент ФИО: {self.fio}, курс: {self.course}, группа: {self.group}")
 
 
 class Professor(Person):
     def __init__(self, fio: str, department: str):
         super().__init__(fio)
-        self._department = department
-
-    def set_department(self, department: str):
-        self._department = department
-
-    def get_department(self) -> str:
-        return self._department
+        self.department = department
 
     def print_info(self):
-        print(f"преподаватель ФИО: {self.get_fio()}, кафедра: {self._department}")
-
-    def get_type(self) -> str:
-        return "Professor"
+        print(f"преподаватель ФИО: {self.fio}, кафедра: {self.department}")
 
 
 def main():
@@ -86,14 +53,15 @@ def main():
         elif choice == "3":
             print("\nсписок студентов")
             for obj in sostav_univera:
-                if obj.get_type() == "Student":
+                if isinstance(obj, Student):
                     obj.print_info()
         elif choice == "4":
             print("\nсписок преподавателей")
             for obj in sostav_univera:
-                if obj.get_type() == "Professor":
+                if isinstance(obj, Professor):
                     obj.print_info()
         else:
             print("нет такого пункта")
 
-main()
+if __name__ == "__main__":
+    main()
