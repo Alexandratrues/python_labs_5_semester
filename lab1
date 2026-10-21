@@ -79,5 +79,5 @@ def main():
     if -1 < x <= 1:
         ln = taylor_ln_1_plus_x(x, epselon)
         print(f"ln(1+{x}): {ln:.8f} | math.log(1+{x}): {math.log(1+x):.8f}")
-   
+
 main()
