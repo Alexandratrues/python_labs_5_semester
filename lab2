@@ -12,6 +12,10 @@ def check_digits_unique(n : int) -> bool:
         temp //= 10
     return True
 
+'''def check_digits_unique(n : int) -> bool:
+    s = str(abs(n))
+    return len(set(s)) == len(s)'''
+
 def remove_kratnoe_min_digit(n : int) -> int:
     temp = abs(n)
     if temp == 0:
