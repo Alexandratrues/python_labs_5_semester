@@ -1,4 +1,113 @@
 import random
+import numpy as np
+
+MAX_SIZE = 100
+
+def input_size() -> int:
+    while True:
+        try:
+            n = int(input(f"введите кол-во эл-тов (от 1 до {MAX_SIZE}): "))
+            if 1 <= n <= MAX_SIZE:
+                return n
+            print(f"число должно быть от 1 до {MAX_SIZE}")
+        except ValueError:
+            print("нужно целое число")
+
+def fill_array(arr: np.ndarray, n: int):
+    choice = input("выберите способ заполнения (1. с клавиатуры; 2. случайные числа): ")
+    
+    if choice == "1":
+        for i in range(n):
+            while True:
+                try:
+                    arr[i] = int(input(f"введите эл-т [{i}]: "))
+                    break
+                except ValueError:
+                    print("нужно целое число")
+    else:
+        while True:
+            try:
+                low = int(input("введите нижнюю границу интервала: "))
+                high = int(input("введите верхнюю границу интервала: "))
+                if low > high:
+                    low, high = high, low
+                break
+            except ValueError:
+                print("нужны целые числа")
+                
+        arr[:n] = np.random.randint(low, high + 1, size=n)
+
+def print_array(arr: np.ndarray, n: int):
+    print(" ".join(map(str, arr[:n])))
+
+def count_even_indices(arr: np.ndarray, n: int):
+    product = np.prod(arr[0:n:2])
+    print(f"произведение эл-тов с чет индексами: {product}")
+
+def count_sum_between_zeros(arr: np.ndarray, n: int):
+    working_arr = arr[:n]
+    zero_indices = np.where(working_arr == 0)[0]
+    
+    if zero_indices.size == 0:
+        print("нет нулей")
+    elif zero_indices.size == 1:
+        print("одного нуля мало")
+    else:
+        first_zero = zero_indices[0]
+        last_zero = zero_indices[-1]
+        
+        _sum = np.sum(working_arr[first_zero + 1 : last_zero])
+        print(f"сумма эл-тов между нулями: {_sum}")
+
+def transform_array(arr: np.ndarray, n: int):
+    temp_arr = arr[:n]
+    
+    negatives = temp_arr[temp_arr < 0]
+    positives = temp_arr[temp_arr >= 0]
+    
+    arr[:n] = np.concatenate([negatives, positives])
+
+def fill_darray(n: int) -> np.ndarray:
+    dynamic_arr = np.zeros(n, dtype=int)
+    fill_array(dynamic_arr, n)
+    return dynamic_arr
+
+
+def main():
+    print("статический массив")
+    static_arr = np.zeros(MAX_SIZE, dtype=int)
+    
+    n = input_size()
+    fill_array(static_arr, n)
+    print("начальный массив")
+    print_array(static_arr, n)
+    
+    count_even_indices(static_arr, n)
+    count_sum_between_zeros(static_arr, n)
+    transform_array(static_arr, n)
+    print("измененный массив")
+    print_array(static_arr, n)
+
+
+    print("динамический массив")
+    n = input_size()
+    dynamic_arr = fill_darray(n)
+    _len = len(dynamic_arr)
+    print("начальный массив")
+    print_array(dynamic_arr, _len)
+
+    count_even_indices(dynamic_arr, _len)
+    count_sum_between_zeros(dynamic_arr, _len)
+    transform_array(dynamic_arr, _len)
+    print("измененный массив")
+    print_array(dynamic_arr, _len)
+
+if __name__ == "__main__":
+    main()
+
+
+
+'''import random
 
 MAX_SIZE = 100
 
@@ -158,4 +267,4 @@ def main():
     transform_array(dynamic_arr, _len)
     print(f"измененный массив: {' '.join(map(str, dynamic_arr))}")
 
-main()
+main()'''
